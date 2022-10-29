@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+
+  mongodb-service:
+    image: mongo:${MONGO_VERSION}
+    container_name: mongodb-cds-test
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: cds
+      MONGO_INITDB_ROOT_PASSWORD: cds_pass
+      MONGO_INITDB_DATABASE: cds_db
+    ports:
+      - "27017:27017"
