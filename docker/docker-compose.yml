@@ -2,12 +2,35 @@ version: '3.1'
 
 services:
 
-  mongodb-service:
+  mongo-service-1:
     image: mongo:${MONGO_VERSION}
-    container_name: mongodb-cds-test
+    container_name: mongodb-cds-test-1
+    command: --config /opt/mongo/configuration.conf --bind_ip_all --replSet cds-replica-set
     environment:
       MONGO_INITDB_ROOT_USERNAME: cds
       MONGO_INITDB_ROOT_PASSWORD: cds_pass
       MONGO_INITDB_DATABASE: cds_db
     ports:
       - "27017:27017"
+    volumes:
+      - ./configuration/node1.conf:/opt/mongo/configuration.conf
+      - ./configuration/auth-keyfile:/opt/mongo/auth-keyfile
+      - ./init-rs.js:/opt/mongo/init-rs.js
+    networks:
+      - mongodb-cds-network
+
+  mongo-service-2:
+    image: mongo:${MONGO_VERSION}
+    container_name: mongodb-cds-test-2
+    command: --config /opt/mongo/configuration.conf --bind_ip_all --replSet cds-replica-set
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./configuration/node2.conf:/opt/mongo/configuration.conf
+      - ./configuration/auth-keyfile:/opt/mongo/auth-keyfile
+    networks:
+      - mongodb-cds-network
+
+networks:
+  mongodb-cds-network:
+    driver: bridge
