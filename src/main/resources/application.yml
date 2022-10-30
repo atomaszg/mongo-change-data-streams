@@ -1,0 +1,3 @@
+spring.data.mongodb:
+  field-naming-strategy: org.springframework.data.mapping.model.SnakeCaseFieldNamingStrategy
+  uri: "mongodb://cds:cds_pass@localhost:27017/cds_db?authSource=admin"
