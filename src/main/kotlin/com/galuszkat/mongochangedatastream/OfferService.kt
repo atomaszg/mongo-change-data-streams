@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.ReactiveMongoOperations
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.changeStream
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Mono
 import java.time.Instant
 
 @Service
@@ -29,7 +30,13 @@ class OfferService(
         return ops.inTransaction()
             .execute {
                 it.insert(offer.toDocument())
-                    .then(it.insert(offer2.toDocument()))
+                    .then(Mono.from(
+
+                        it.insert(offer2.toDocument()).also {
+                            throw RuntimeException("error")
+                        }
+
+                    ))
             }
             .awaitFirstOrNull()!!.toDomain()
     }

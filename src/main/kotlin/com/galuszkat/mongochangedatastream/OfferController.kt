@@ -15,6 +15,6 @@ class OfferController(
 
     @PostMapping
     fun create(@RequestBody offer: Offer): Mono<Offer> = mono {
-        service.save(offer)
+        service.saveTransactional(offer)
     }
 }

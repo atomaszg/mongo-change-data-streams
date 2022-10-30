@@ -1,5 +1,5 @@
-!/bin/bash
-mongo --username $MONGO_INITDB_ROOT_USERNAME --password $MONGO_INITDB_ROOT_PASSWORD <<EOF
+!/bin/sh
+mongosh -u $MONGO_INITDB_ROOT_USERNAME -p '$MONGO_INITDB_ROOT_PASSWORD' --authenticationDatabase admin <<EOF
 rs.initiate({
     _id: "cds-replica-set",
     members: [
